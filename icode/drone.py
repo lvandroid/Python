@@ -6,9 +6,10 @@
 A simple example of an animated plot... In 3D!
 """
 import numpy as np
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-import matplotlib.animation as animation
+
+# import matplotlib.pyplot as plt
+# from mpl_toolkits.mplot3d import Axes3D
+# import matplotlib.animation as animation
 
 X = np.arange(0, 10)
 Y = np.arange(0, 10)
@@ -121,13 +122,53 @@ def update_plane(ax):
             planes[index].z - 1
             p = planes[index]
             ax.scatter(p.x, p.y, p.z)
+
+
+z = np.arange(9, 7, -0.1)
+fig = plt.figure()
+ax = p3.Axes3D(fig)
+
+
+def draw_plane(plane):
+    # ax.scatter(plane.x, plane.y, plane.z)
+    # ax.scatter(plane.x, plane.y, plane.z)
+    line, = ax.plot([plane.x], [plane.y], [plane.z], marker='o', color='red', markersize=8)
+
+
+# dot = ax.scatter(5, 4, z)
+y, z = 4, 10
+
+
+def init_datas():
+    for index in range(1, 21):
+        if index <= 10:
+            y = 3
+            p = Plane(index, y, z)
+            planes[index] = p
+            draw_plane(p)
+        else:
+            y = 6
+            x = index - 10
+            p = Plane(x, y, z)
+            planes[index] = p
+            draw_plane(p)
+
     return planes
+
+
+def update_dot(i):
+    dot.z = 10 - i
+    return dot,
+
+
+def init_dot():
+    return dot,
 
 
 if __name__ == '__main__':
     # Attaching 3D axis to the figure
-    fig = plt.figure()
-    ax = p3.Axes3D(fig)
+    # fig = plt.figure()
+    # ax = p3.Axes3D(fig)
 
     # Fifty lines of random 3-D lines  (长为50的数组，每个元素为shape为3,25的ndarray，最后实际效果就是50条路径)
     # data = [Gen_RandLine(25, 3) for index in range(50)]
@@ -151,19 +192,10 @@ if __name__ == '__main__':
     # Creating the Animation object
     # line_ani = animation.FuncAnimation(fig, update_lines, 25, fargs=(data, lines),
     #                                    interval=50, blit=False)
+    #
+    # y, z = 4, 10
 
-    y, z = 4, 10
-    for index in range(1, 21):
-        if index <= 10:
-            y = 3
-            planes[index] = Plane(index, y, z)
-            ax.scatter(index, y, z)
-        else:
-            y = 6
-            x = index - 10
-            planes[index] = Plane(x, y, z)
-            ax.scatter(x, y, z)
-
-    animation.FuncAnimation(fig, update_plane(ax), frames=3, interval=300)
+    init_datas()
+    # animation.FuncAnimation(fig, func=update_dot, frames=5, interval=500)
 
     plt.show()

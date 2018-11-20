@@ -31,9 +31,9 @@ def init():
     ti = 0
     t = t_drange[np.mod(ti, t_dlen)]
 
-    xt1 = x0 + r1 * np.cos(omega1 * t)
-    yt1 = y0 + r1 * np.sin(omega1 * t)
-    zt1 = z0 + 0
+    xt1 = x0
+    yt1 = y0
+    zt1 = z0
     xt2 = xt1 + r2 * np.sin(omega2 * t)
     yt2 = yt1 + r2 * np.cos(omega2 * t) / (np.cos(phi) * (1 + np.tan(phi) ** 2))
     zt2 = zt1 + (yt2 - yt1) * np.tan(phi)
@@ -54,11 +54,19 @@ def data_gen():
 
     # while true:
     data = []
-    for ti in range(1, t_dlen):
-        t = t_drange[ti]
-        xt1 = x0 + r1 * np.cos(omega1 * t)
-        yt1 = y0 + r1 * np.sin(omega1 * t)
-        zt1 = z0
+    for ti in range(1, 3 * t_dlen):
+        if ti < t_dlen:
+            xt1 = x0
+            yt1 = y0
+            zt1 = z0 - ti
+        elif ti < 2 * t_dlen:
+            xt1 = x0 + ti - t_dlen
+            yt1 = y0
+            zt1 = zt1
+        else:
+            xt1 = xt1
+            yt1 = y0
+            zt1 = zt1 + (ti - 2 * t_dlen) / 2
         # xt2 = xt1 + r2 * np.sin(omega2 * t)
         # yt2 = yt1 + r2 * np.cos(omega2 * t) / (np.cos(phi) * (1 + np.tan(phi) ** 2))
         # zt2 = zt1 + (yt2 - yt1) * np.tan(phi)
@@ -73,13 +81,13 @@ def data_gen():
 
 if __name__ == '__main__':
     t_range = np.arange(0, 1 + 0.005, 0.005)
-    t_drange = np.arange(0, 1, 0.005)
+    t_drange = np.arange(0, 1, 0.1)
     t_len = len(t_range)
     t_dlen = len(t_drange)
     # sun's coordination
     x0 = 0
     y0 = 0
-    z0 = 0
+    z0 = 10
     # earth's orbit
     x1 = x0 + r1 * np.cos(omega1 * t_range)
     y1 = y0 + r1 * np.sin(omega1 * t_range)
@@ -98,11 +106,11 @@ if __name__ == '__main__':
     ax.set_title("Sun-Earth-Moon Model")
 
     # ax.plot([0], [0], [0], marker='o', color='red', markersize=16)
-    ax.plot(x1, y1, z1, 'r')
+    # ax.plot(x1, y1, z1, 'r')
     # ax.plot(x2, y2, z2, 'b')
-    ax.set_xlim([-(r1 + 2), (r1 + 2)])
-    ax.set_ylim([-(r1 + 2), (r1 + 2)])
-    ax.set_zlim([-5, 5])
+    ax.set_xlim([-1, 12])
+    ax.set_ylim([-1, 12])
+    ax.set_zlim([-1, 12])
     # line1 update Earth's track  dynamically
     # line2 update Moon's track dynamically
     # line3 update Moon's orbit to earth
@@ -111,7 +119,7 @@ if __name__ == '__main__':
     # line3, = ax.plot([], [], [], color='purple', animated=True)
 
     # red sphere for Sun, blue sphere for Earth, orange sphere for Moon
-    ani = animmation.FuncAnimation(f, update, frames=data_gen(), init_func=init, interval=20)
+    ani = animmation.FuncAnimation(f, update, frames=data_gen(), init_func=init, interval=200)
     # ffwriter = animmation.ffmpegwriter(fps = 200)
     # ani.save('planet.gif', writer='imagemagick', fps=40)
     # ani.save('planet.gif', writer = ffwriter)

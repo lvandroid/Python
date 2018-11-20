@@ -46,42 +46,52 @@ class Plane:
     # 左翻
     def turn_left(self):
         self.x -= 1
+        return self
 
     # 右翻
     def turn_right(self):
         self.x += 1
+        return self
 
     # 前翻
     def turn_forward(self):
         self.y += 1
+        return self
 
     # 后翻
     def turn_back(self):
         self.y -= 1
+        return self
 
     # 左飞
     def to_left(self):
         self.x -= 1
+        return self
 
     # 右飞
     def to_right(self):
         self.x += 1
+        return self
 
     # 前飞
     def to_forward(self):
         self.y += 1
+        return self
 
     # 后飞
     def to_back(self):
         self.y -= 1
+        return self
 
     # 上升
     def to_upper(self):
         self.z += 1
+        return self
 
     # 下降
     def to_down(self):
         self.z -= 1
+        return self
 
 
 planes = {}

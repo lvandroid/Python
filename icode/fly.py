@@ -89,6 +89,12 @@ class Plane:
         self.z += 1
         return self
 
+        # 上升
+
+    def to_upper(self, z):
+        self.z += z
+        return self
+
     # 下降
     def to_down(self):
         self.z -= 1
@@ -127,6 +133,8 @@ arr_small_second = {}
 arr_small_third = {}
 arr_small_fourth = {}
 
+lines = []
+
 
 # 初始化飞机数据
 def init_planes():
@@ -152,9 +160,19 @@ def set_data(p, plane):
     return p
 
 
+def array_fly_top(planes, z):
+    for index in range(0, planes.length):
+        planes[index].to_upper(z)
+
+
 # def draw_red_line(plane, c):
 def draw_line(plane, c):
     return ax.plot([plane.x], [plane.y], [plane.z], marker='o', color=c, markersize=8)
+
+
+def draw_lines(planes, c):
+    for index in range(0, planes.length):
+        draw_line(planes[index], c)
 
 
 def update(data):
@@ -178,32 +196,55 @@ def update(data):
 def init():
     global p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20
     init_planes()
-    p1, = draw_line(arr_big_first[0], 'red')
-    p2, = draw_line(arr_big_first[1], 'red')
-    p3, = draw_line(arr_big_first[2], 'red')
-    p4, = draw_line(arr_big_first[3], 'red')
+    # p1, = draw_line(arr_big_first[0], 'red')
+    # p2, = draw_line(arr_big_first[1], 'red')
+    # p3, = draw_line(arr_big_first[2], 'red')
+    # p4, = draw_line(arr_big_first[3], 'red')
+    #
+    # p5, = draw_line(arr_big_second[0], 'blue')
+    # p6, = draw_line(arr_big_second[1], 'blue')
+    # p7, = draw_line(arr_big_second[2], 'blue')
+    # p8, = draw_line(arr_big_second[3], 'blue')
+    #
+    # p9, = draw_line(arr_big_third[0], 'green')
+    # p10, = draw_line(arr_big_third[1], 'green')
+    # p11, = draw_line(arr_big_third[2], 'green')
+    # p12, = draw_line(arr_big_third[3], 'green')
 
-    p5, = draw_line(arr_big_second[0], 'blue')
-    p6, = draw_line(arr_big_second[1], 'blue')
-    p7, = draw_line(arr_big_second[2], 'blue')
-    p8, = draw_line(arr_big_second[3], 'blue')
+    # p13, = draw_line(arr_small_first[0], 'green')
+    # p14, = draw_line(arr_small_first[1], 'green')
+    #
+    # p15, = draw_line(arr_small_second[0], 'blue')
+    # p16, = draw_line(arr_small_second[1], 'blue')
+    #
+    # p17, = draw_line(arr_small_third[0], 'purple')
+    # p18, = draw_line(arr_small_third[1], 'purple')
+    #
+    # p19, = draw_line(arr_small_fourth[0], 'purple')
+    # p20, = draw_line(arr_small_fourth[1], 'purple')
 
-    p9, = draw_line(arr_big_third[0], 'green')
-    p10, = draw_line(arr_big_third[1], 'green')
-    p11, = draw_line(arr_big_third[2], 'green')
-    p12, = draw_line(arr_big_third[3], 'green')
+    for index in range(0, 4):
+        if index < 2:
+            lines.append(draw_line(arr_small_first[index], 'green'))
+            lines.append(draw_line(arr_small_second[index], 'blue'))
+            lines.append(draw_line(arr_small_third[index], 'purple'))
+            lines.append(draw_line(arr_small_fourth[index], 'purple'))
 
-    p13, = draw_line(arr_small_first[0], 'green')
-    p14, = draw_line(arr_small_first[1], 'green')
+        lines.append(draw_line(arr_big_first[index], 'red'))
+        lines.append(draw_line(arr_big_second[index], 'blue'))
+        lines.append(draw_line(arr_big_third[index], 'green'))
 
-    p15, = draw_line(arr_small_second[0], 'blue')
-    p16, = draw_line(arr_small_second[1], 'blue')
+    # plt.pause(1000)
 
-    p17, = draw_line(arr_small_third[0], 'purple')
-    p18, = draw_line(arr_small_third[1], 'purple')
+    # 向上飞
+    # array_fly_top(arr_big_first, 5)
+    # draw_lines(arr_big_first, 'red')
 
-    p19, = draw_line(arr_small_fourth[0], 'purple')
-    p20, = draw_line(arr_small_fourth[1], 'purple')
+    # for index in range(0, 2):
+    #     lines.append(draw_line(arr_small_first[index], 'green'))
+    #     lines.append(draw_line(arr_small_second[index], 'blue'))
+    #     lines.append(draw_line(arr_small_third[index], 'purple'))
+    #     lines.append(draw_line(arr_small_fourth[index], 'purple'))
 
     # p00 = Plane(x0, y0, z0)
     # p11 = copy.copy(p00)
@@ -249,7 +290,8 @@ def init():
     # p16, = draw_line(p52, 'green')
 
     # return p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20
-    return p1, p2, p3, p4
+    # return p1, p2, p3, p4
+    return lines
 
 
 def data_gen():

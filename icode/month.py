@@ -44,7 +44,7 @@ def update(data):
 def init():
     global line1, line2, line3, line4, line5, line6, line7, line8, line9
     ti = 0
-    t = t_drange[np.mod(ti, t_dlen)]
+    # t = t_drange[np.mod(ti, t_dlen)]
 
     xt1 = x0
     yt1 = y0
@@ -226,14 +226,14 @@ if __name__ == '__main__':
     z_9 = 15
 
     # earth's orbit
-    x1 = x0 + r1 * np.cos(omega1 * t_range)
-    y1 = y0 + r1 * np.sin(omega1 * t_range)
-    z1 = z0 + np.zeros(t_len)
-
-    # moon's orbit
-    x2 = x1 + r2 * np.sin(omega2 * t_range)
-    y2 = y1 + r2 * np.cos(omega2 * t_range) / (np.cos(phi) * (1 + np.tan(phi) ** 2))
-    z2 = z1 + (y2 - y1) * np.tan(phi)
+    # x1 = x0 + r1 * np.cos(omega1 * t_range)
+    # y1 = y0 + r1 * np.sin(omega1 * t_range)
+    # z1 = z0 + np.zeros(t_len)
+    #
+    # # moon's orbit
+    # x2 = x1 + r2 * np.sin(omega2 * t_range)
+    # y2 = y1 + r2 * np.cos(omega2 * t_range) / (np.cos(phi) * (1 + np.tan(phi) ** 2))
+    # z2 = z1 + (y2 - y1) * np.tan(phi)
 
     f = plt.figure(figsize=(6, 6))
     ax = f.add_subplot(111, projection='3d')

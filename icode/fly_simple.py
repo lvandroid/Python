@@ -13,7 +13,6 @@ import matplotlib.font_manager as fm
 myfont = fm.FontProperties(fname="/Library/Fonts/Songti.ttc", size=14)
 matplotlib.rcParams["axes.unicode_minus"] = False
 
-
 class Plane:
     def __init__(self, x, y, z):
         self.x = x
@@ -191,6 +190,12 @@ def left_angle_90(planes):
         p.to_left(key)
 
 
+def front_angle_90(planes):
+    for key, p in planes.items():
+        p.to_forward(key * _distance_)
+        p.to_left(-key * _distance_)
+
+
 # def draw_red_line(plane, c):
 def draw_line(plane, c):
     return ax.plot([plane.x], [plane.y], [plane.z], marker='o', color=c, markersize=8)
@@ -222,17 +227,99 @@ def start_fly():
     right_angle_90(arr_small_third)
     left_angle_90(arr_small_fourth)
 
-    fly_up(3, arr_small_third)
+    fly_up(4, arr_small_first)
+    fly_forward(_distance_, arr_small_first)
+    fly_left(2, arr_small_first)
+
+    fly_up(4, arr_small_second)
+    fly_forward(_distance_, arr_small_second)
+    fly_right(2, arr_small_second)
+
+    fly_up(4, arr_small_third)
+
+    fly_up(4, arr_small_fourth)
+    fly_back(_distance_, arr_small_second)
+
+
+# 飞成9数字图形
+def fly_9():
+    fly_up(6, arr_big_second)
+    fly_up(9, arr_big_third)
+    fly_right(8, arr_big_second)
+    fly_left(8, arr_big_third)
+
     fly_up(3, arr_small_first)
+    fly_up(3, arr_small_third)
+
+    fly_up(3, arr_small_second)
+
+    fly_right(3, arr_small_first)
+    fly_right(3, arr_small_third)
+
+    fly_left(3, arr_small_second)
+    fly_left(3, arr_small_fourth)
+
+
+def fly_8():
+    fly_9()
+    fly_down(3, arr_small_first)
+    fly_back(_distance_, arr_small_first)
+
+
+def fly_7():
+    fly_8()
+    front_angle_90(arr_big_first)
+
+
+def fly_6():
+    fly_8()
+    fly_forward(_distance_, arr_small_second)
+    fly_down(3, arr_small_second)
+
+
+def fly_5():
+    fly_6()
+    fly_forward(_distance_, arr_small_first)
+    fly_up(3, arr_small_first)
+
+
+def fly_4():
+    pass
+
+
+def fly_3():
+    fly_5()
+    fly_right(3, arr_small_first)
+    fly_right(3, arr_small_third)
+
+
+def fly_2():
+    fly_3()
+    fly_left(3, arr_small_second)
+    fly_left(3, arr_small_fourth)
+
+
+def fly_1():
+    pass
+
+
+def fly_0():
+    pass
 
 
 def init():
     init_planes()
     start_fly()
-
+    # fly_9()
+    # fly_8()
+    # fly_7()
+    # fly_6()
+    # fly_5()
+    # fly_3()
+    fly_2()
     for index in range(0, 4):
         if index < 2:
-            ls_21, = draw_line(arr_small_first[index], 'green')
+            ls_21, = draw_line(arr_small_first[index], 'blue')
             lines.append(ls_21)
             ls_22, = draw_line(arr_small_second[index], 'blue')
             lines.append(ls_22)
@@ -304,12 +391,13 @@ def data_gen():
 
 if __name__ == '__main__':
     ax.set_aspect('equal')
-    ax.set_title("Dot Move")
-    ax.set_xlim([-8, 8])
+    ax.set_title("无人机飞行模型--数字2", fontproperties=myfont)
+    ax.set_xlim([-10, 10])
     ax.set_ylim([-6, 6])
-    ax.set_zlim([-8, 8])
+    ax.set_zlim([0, 10])
 
-    ani = animmation.FuncAnimation(f, update, frames=data_gen(), init_func=init, interval=_interval_)
+    # ani = animmation.FuncAnimation(f, update, frames=data_gen(), init_func=init, interval=_interval_)
+    init()
     # init_planes()
     # update(init())
 
